@@ -1,0 +1,6 @@
+@qiapi_HostAddress = http://localhost:5092
+
+GET {{qiapi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
