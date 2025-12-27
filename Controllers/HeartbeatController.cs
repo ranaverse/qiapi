@@ -1,25 +1,26 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using qiapi.Models;
+using qiapi.Security;
 
 namespace qiapi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class HeartbeatController : ControllerBase
     {
+        [FidoAuthorize]
         [HttpGet]
         public IActionResult Get()
         {
-            var response = new Heartbeat
+            if (HttpContext.Session.GetString("IsLoggedIn") != "true")
             {
-                Message = "Heartbeat received. The oracle is alive.",
-                Timestamp = DateTime.UtcNow,
-                Source = "QI Core"
-            };
+                return Unauthorized();
+            }
 
-            return Ok(response);
+            return Ok("🔥 QI is alive and guarded.");
         }
+
     }
 
 }
